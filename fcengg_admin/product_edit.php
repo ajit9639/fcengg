@@ -97,7 +97,7 @@ $getall_detail = mysqli_fetch_assoc(mysqli_query($conn , "SELECT * FROM `product
                                 </div>
                             </div>
 
-                            <div class="form-group col-sm-4">
+                            <div class="form-group col-sm-2">
                                 <label class=" control-label">Product MRP Price</label>
                                 <div>
                                     <input type="text" class="form-control input-md" placeholder="Enter Product MRP Price"
@@ -105,7 +105,7 @@ $getall_detail = mysqli_fetch_assoc(mysqli_query($conn , "SELECT * FROM `product
                                 </div>
                             </div>
 
-                            <div class="form-group col-sm-4">
+                            <div class="form-group col-sm-2">
                                 <label class=" control-label">Product Sale Price</label>
                                 <div>
                                     <input type="text" class="form-control input-md" placeholder="Enter Product Sale Price"
@@ -113,7 +113,29 @@ $getall_detail = mysqli_fetch_assoc(mysqli_query($conn , "SELECT * FROM `product
                                 </div>
                             </div>
                                         
-                            
+                            <div class="form-group col-sm-4">
+                                <label class=" control-label">Sub Category</label>
+                                <div>
+                                    <!-- <input type="file" class="form-control input-md"  name="product_image" required> -->
+                                    <select name="sub_cat" id="" class="form-control input-md">
+                                        <?php
+                                        $edit_subcat = $getall_detail['product_subcat'];
+                                        // echo "SELECT * FROM `subcategory` where `subcategory_id`='$edit_subcat'";
+                                        $edit_subcat1 = mysqli_query($conn , "SELECT * FROM `subcategory` where `subcategory_id`='$edit_subcat'");
+                                        $edit_subcat2 = mysqli_fetch_assoc($edit_subcat1)
+                                        ?>
+                                        <option value="<?= $edit_subcat2['subcategory_id'] ?>"><?= $edit_subcat2['subcategory_name'] ?></option>
+                                        <?php 
+                                       $getcat = mysqli_query($conn,"SELECT * FROM `subcategory`");
+                                       while($get = mysqli_fetch_assoc($getcat)){  
+                                             
+                                        ?>
+                                        <option value="<?= $get['subcategory_id']; ?>"><?= $get['subcategory_name']; ?></option>
+                                    <?php } ?>
+                                    
+                                    </select>
+                                </div>
+                            </div>
 
                                                                                  
 

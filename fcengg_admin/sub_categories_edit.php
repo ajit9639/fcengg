@@ -93,12 +93,12 @@ $data = mysqli_fetch_assoc($check_cat);
                             <div class="form-group col-sm-4">
                                 <label class=" control-label">Category Name</label>
                                 <select id="" class="form-control" name="category">
-                                    <option value="<?= $data['category_name'] ?>" selected> <?= $data['category_name'] ?></option>
+                                    <option value="<?= $data['cat_id'] ?>" selected> <?= $data['category_name'] ?></option>
                                     <?php 
                                              $getcat = mysqli_query($conn,"SELECT * FROM `category`");
                                             while($get = mysqli_fetch_assoc($getcat)){ 
                                                 ?>
-                                    <option value="<?= $get['cat_name'] ?>" > <?= $get['cat_name'] ?></option>
+                                    <option value="<?= $get['cat_id'] ?>" > <?= $get['cat_name'] ?></option>
                                     <?php } ?>
                                 </select>
                             </div>

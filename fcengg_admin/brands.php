@@ -170,7 +170,7 @@ if($ins_cat){
                                 <label class=" control-label">Brand Url</label>
                                 <div>
                                     <input type="text" class="form-control input-md" placeholder="Enter Brand Url"
-                                        name="brand_url" required>
+                                        name="brand_url">
                                 </div>
                             </div>
 

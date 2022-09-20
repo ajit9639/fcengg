@@ -94,11 +94,16 @@ if($ins_cat){
                                 <?php
                                 $s =1;
                                 $getcat = mysqli_query($conn,"SELECT * FROM `subcategory`");
-                                while($get = mysqli_fetch_assoc($getcat)){                               
+                                while($get = mysqli_fetch_assoc($getcat)){  
+                                    $getsub = $get['category_name'];   
+
+                                    $getsubcat1 = mysqli_query($conn , "SELECT * FROM `category` where `cat_id`='$getsub'");    
+                                    $getsubcat2 = mysqli_fetch_assoc($getsubcat1);                      
                                 ?>
                                 <tr>
                                     <td><?= $s?></td>
-                                    <td><?= $get['category_name']?></td>
+                                    <td><?= $getsubcat2['cat_name']?></td>
+
                                     <td><?= $get['subcategory_name']?></td>
                                     <td><a href="sub_categories_edit.php?id=<?= $get['subcategory_id']?>&& type=edit" class="btn btn-sm btn-success"><i class="fa fa-pen"></i></a> 
                                          <a href="sub_categories_edit.php?id=<?= $get['subcategory_id']?>&&type=delete" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a></td>
@@ -144,7 +149,7 @@ if($ins_cat){
                                              $getcat = mysqli_query($conn,"SELECT * FROM `category`");
                                             while($get = mysqli_fetch_assoc($getcat)){ 
                                                 ?>
-                                            <option value="<?= $get['cat_name'] ?>" > <?= $get['cat_name'] ?></option>
+                                            <option value="<?= $get['cat_id'] ?>" > <?= $get['cat_name'] ?></option>
                                                 <?php } ?>
                                         </select>
                                 </div>

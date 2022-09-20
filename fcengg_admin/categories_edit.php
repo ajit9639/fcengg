@@ -23,22 +23,21 @@ if($getid != "" AND $type == "delete"){
 // data insertion
 $success="";
 $unsuccess="";
+$getid = $_GET['id'];
 if(isset($_POST['send'])){
     $category = $_POST["category"];    
      
-    $banner_img = $_FILES["banner_img"];  
-    $banner_img_name = $banner_img['name'];
-    $banner_img_tmp_name = $banner_img['tmp_name'];
-
-    $check_cat = mysqli_query($conn,"SELECT * FROM `banners` WHERE `banner_url`='$banner_url'");
+    $cat_img = $_FILES["cat_img"];  
+    $cat_img_name = $cat_img['name'];
+    $cat_img_tmp_name = $cat_img['tmp_name'];
     
      
-    if (!empty($_FILES['banner_img']['tmp_name'])) {
-        $banner_data = addslashes(file_get_contents($banner_img_tmp_name));   
-        $ins_cat = mysqli_query($conn,"UPDATE `banners` SET `banner_img`='$banner_data',`banner_url`='$banner_url' where `banner_id`='$getid'");       
+    if (!empty($_FILES['cat_img']['tmp_name'])) {
+        $cat_data = addslashes(file_get_contents($cat_img_tmp_name));   
+        $ins_cat = mysqli_query($conn,"UPDATE `category` SET `cat_name`='$category',`cat_image`='$cat_data' where `cat_id`='$getid'");       
     }else{
         
-        $ins_cat = mysqli_query($conn,"UPDATE `banners` SET `banner_url`='$banner_url' where `banner_id`='$getid'");
+        $ins_cat = mysqli_query($conn,"UPDATE `category` SET `cat_name`='$category' where `cat_id`='$getid'");
     }
 
 if($ins_cat){
@@ -52,17 +51,13 @@ if($ins_cat){
     </div>';
 }
 }else{
-    $unsuccess='<div class="alert alert-danger" role="alert">
-    Already Exist
-    </div>';
+    
 }
-}
+
 // data fetch
 $check_cat = mysqli_query($conn,"SELECT * FROM `category` WHERE `cat_id`='$getid'");
 $data = mysqli_fetch_assoc($check_cat);
 ?>
-
-
 
 <!-- Content Wrapper -->
 <div id="content-wrapper" class="d-flex flex-column">
@@ -84,12 +79,9 @@ $data = mysqli_fetch_assoc($check_cat);
                             <div class="col-md-2">
                                 <a href="categories.php" class="btn btn-primary btn-sm ">View Catergory
                                 </a>
-
-
                             </div>
                         </div>
-                    </div>
-                   
+                    </div>                   
                 </div>
 
 
@@ -97,14 +89,29 @@ $data = mysqli_fetch_assoc($check_cat);
                     <?= $unsuccess ?>
                 <div class="card-body">
                     <form  method="POST" enctype="multipart/form-data" class="form-horizontal">
-
                         
                         <div class="row  p-2">
                             <div class="form-group col-sm-4">
                                 <label class=" control-label">Category Name</label>
                                 <div>
                                     <input type="text" class="form-control input-md" placeholder="Enter Category Name"
-                                        name="category" value=<?= $data['cat_name']?>>
+                                        name="category" value="<?= $data['cat_name'] ?> ">
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-4">
+                                <label class=" control-label">Category Image</label>
+                                <div>
+                                <input type="file" class="form-control input-md"  name="cat_img" >
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-4">
+                                <label class=" control-label">Category Image</label>
+                                <div>
+                                <?php 
+                                 $mg = $data['cat_image'];   
+                                echo '<img src="data:image/jpeg;base64,'.base64_encode($mg) .'" style="width:100px;"/> '; ?>
                                 </div>
                             </div>
 

@@ -13,17 +13,17 @@ $success="";
 $unsuccess="";
 if(isset($_POST['send'])){
     $product_name = $_POST['product_name'];
-    $product_sale_price = $_POST['product_sale_price'];
     $product_mrp_price = $_POST['product_mrp_price'];
+    $product_sale_price = $_POST['product_sale_price'];
+
+    $product_cat = $_POST['product_cat'];
+    $product_subcat = $_POST['product_subcat'];
+    $product_brand = $_POST['product_brand'];
+
     $product_description = $_POST['product_description'];
-    $product_specification = $_POST['product_specification'];
+    $product_specification = $_POST['product_specification'];    
 
-    // $product_img = $_FILES["product_image"];  
-    // $product_img_name = $product_img['name'];
-    // $product_img_tmp_name = $product_img['tmp_name'];
-    // $product_data = addslashes(file_get_contents($product_img_tmp_name));   
-
-$ins_cat = mysqli_query($conn,"INSERT INTO `products`(`product_name`, `product_mrp_price`,`product_sale_price`, `product_description`, `product_specification`) VALUES ('$product_name','$product_mrp_price','$product_sale_price','$product_description','$product_specification')");
+$ins_cat = mysqli_query($conn,"INSERT INTO `products`(`product_name`, `product_mrp_price`, `product_sale_price`, `product_category`, `product_subcat`, `product_brand`, `product_description`, `product_specification`) VALUES ('$product_name','$product_mrp_price','$product_sale_price','$product_cat','$product_subcat','$product_brand','$product_description','$product_specification')");
 if($ins_cat){
     $success='<div class="alert alert-primary" role="alert">
     Success
@@ -38,8 +38,6 @@ if($ins_cat){
 //     echo "<script>alert('Alread exist')</script>";
 // }
 }
-
-
 ?>
 
 
@@ -85,32 +83,69 @@ if($ins_cat){
                                 </div>
                             </div>
 
-                            <div class="form-group col-sm-4">
+                            <div class="form-group col-sm-2">
                                 <label class=" control-label">Product MRP Price</label>
                                 <div>
-                                    <input type="text" class="form-control input-md" placeholder="Enter Product MRP Price"
+                                    <input type="text" class="form-control input-md" placeholder="Enter MRP Price"
                                         name="product_mrp_price" required>
                                 </div>
                             </div>
 
-                            <div class="form-group col-sm-4">
+                            <div class="form-group col-sm-2">
                                 <label class=" control-label">Product Sale Price</label>
                                 <div>
-                                    <input type="text" class="form-control input-md" placeholder="Enter Product Sale Price"
+                                    <input type="text" class="form-control input-md" placeholder="Enter Sale Price"
                                         name="product_sale_price" required>
                                 </div>
                             </div>
+                                                      
+                           
+                           
 
-                           
-                           
-                           
-                            <!-- <div class="form-group col-sm-4">
-                                <label class=" control-label">Product Image</label>
+
+
+
+                            <!-- addon -->
+                            <div class="form-group col-sm-4">
+                                <label class=" control-label">Category</label>
                                 <div>
-                                    <input type="file" class="form-control input-md"  name="product_image" required>
-                                </div>
-                            </div> -->
 
+                                <select  name="product_cat" required="true" onChange="getsubcat(this.value)" class="form-control">
+                                <option value="">Select Category</option>
+                                <?php $query = mysqli_query($conn,"select * from `category`");
+                                while($row = mysqli_fetch_array($query))
+                                {?>
+                                 <option value="<?php echo $row['cat_id'];?>">
+                                 <?php echo $row['cat_name'];?></option>
+                                 <?php } ?>
+                                 </select>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group col-sm-4">
+                                <label class=" control-label">Sub Category</label>
+                                <div>
+                                <select  class="form-control" name="product_subcat" id="product_subcat">
+                                </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-4">
+                                <label class=" control-label">Brand</label>
+                                <div>
+                                    <select name="product_brand" class="form-control input-md">
+                                        <option value="" selected disabled>Select Brand</option>
+                                        <?php 
+                                       $getcat = mysqli_query($conn,"SELECT * FROM `brands`");
+                                       while($get = mysqli_fetch_assoc($getcat)){ ?>
+                                        <option value="<?= $get['brand_id']; ?>"><?= $get['brand_name']; ?></option>
+                                    <?php } ?>
+
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- // addon -->
 
                             <div class="form-group col-sm-12">
                                 <label class=" control-label">Product Description</label>
@@ -137,6 +172,22 @@ if($ins_cat){
             </div>
     </div><!-- /.container-fluid -->
     </section>
+
+
+    
+    <script>
+    function getsubcat(id) {
+    $.ajax({
+        type: "POST",
+        url: "get_subcategory.php",
+        data: '$cat_id=' + id,
+        success: function(data) {
+           
+            $("#product_subcat").html(data);
+        }
+    });
+}
+</script>
 
 <script src="./ckeditor/ckeditor.js"></script>
     <?php 

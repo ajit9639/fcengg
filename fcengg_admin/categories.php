@@ -157,7 +157,7 @@ if($ins_cat){
 
 
                             <div class="form-group col-sm-4">
-                                <label class=" control-label">Category Image</label>
+                                <label class=" control-label">Category Image (160*120)</label>
                                 <div>
                                     <input type="file" class="form-control input-md" 
                                         name="cat_image">
